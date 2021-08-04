@@ -27,6 +27,3 @@ https://otologic.jp/free/se/shortbridge01.html
 
 ### Onmtp-Inspiration08-3.mp3
 https://otologic.jp/free/se/inspiration01.html
-
-## Quality
-
