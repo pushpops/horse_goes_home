@@ -274,7 +274,7 @@ def showEndEvent(RESULT,cx,cityx):
 		screen.blit(scorefont.render(str(score)+'%', True, (0,0,0)), [70,50])
 		refreshFrame()
 	
-	if score >= 85:
+	if score >= 80:
 		pygame.time.wait(700)
 		CLEAR.play()
 		DISPLAYSURF.blit(IMAGEDICT['smile'],(0,0))
@@ -403,7 +403,7 @@ def terminate():
     sys.exit()
 
 def drawHardle(S,hardles):
-	SPEED = 16
+	SPEED = 21
 	mtime = pygame.mixer.music.get_pos()/1000 #get music's play time
 	#make hardles ready before this time,from horse's leg to right edge is about 452 pixel
 	if S<len(TIMING) and TIMING[S]-mtime<(452/(SPEED*FPS)): 
