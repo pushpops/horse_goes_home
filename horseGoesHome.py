@@ -16,7 +16,7 @@ RED       = (255,   0,   0)
 GREEN     = (  0, 255,   0)
 DARKGREEN = (  0, 155,   0)
 DARKGRAY  = ( 40,  40,  40)
-class Hardle:
+class Hurdle:
 	pic = ''
 	x = WIDTH
 	def __init__(self, pic,speed):
@@ -28,7 +28,7 @@ class Hardle:
 
 class ScoreMaker:
 	notes = [] #音符リスト
-	is_hardle = [] #ハードルかどうかのリスト
+	is_hurdle = [] #ハードルかどうかのリスト
 	init = 4.00 #音源の最初からの経過時間
 
 	#n 繰り返し数
@@ -42,10 +42,10 @@ class ScoreMaker:
 			t = self.notes[-1]+0.5
 		for j in range(n):
 			self.notes.append(t)
-			self.is_hardle.append(False)
+			self.is_hurdle.append(False)
 			self.notes.append(t+0.333)
 			t += 0.5
-			self.is_hardle.append(False)
+			self.is_hurdle.append(False)
 
 	#swing2は1の後ろにだけくるとする
 	def swing2(self,n,p):
@@ -53,13 +53,13 @@ class ScoreMaker:
 		for j in range(n):
 			t += 0.5
 			self.notes.append(t)
-			self.is_hardle.append(False)
+			self.is_hurdle.append(False)
 			self.notes.append(t+0.333)
-			self.is_hardle.append(True)
+			self.is_hurdle.append(True)
 			for k in range(3):
 				t += 0.5
 				self.notes.append(t+0.333) 
-				self.is_hardle.append(True)
+				self.is_hurdle.append(True)
 
 	#swing3は2の後ろにだけくるとする
 	def swing3(self,n,p):
@@ -68,7 +68,7 @@ class ScoreMaker:
 			for k in range(4):
 				t += 0.5
 				self.notes.append(t)
-				self.is_hardle.append(True)
+				self.is_hurdle.append(True)
 
 	def make(self):
 		#全てswing1パターンの配列を作成
@@ -86,13 +86,13 @@ class ScoreMaker:
 		self.swing3(1,2) #第2引数に意味はないが書式合わせ
 		self.swing1(6,3)
 		self.notes.append(47.0+self.init)
-		self.is_hardle.append(False)
+		self.is_hurdle.append(False)
 		#print(self.notes)
 
-		return self.notes, self.is_hardle
+		return self.notes, self.is_hurdle
 
 def main():
-	global IMAGEDICT,FPSCLOCK,TIMING,IS_HARDLE,screen,font,BASICFONT,BASICFONT30
+	global IMAGEDICT,FPSCLOCK,TIMING,IS_HURDLE,screen,font,BASICFONT,BASICFONT30
 	#initialise
 	pygame.mixer.quit()
 	pygame.mixer.pre_init(buffer=64)
@@ -102,7 +102,7 @@ def main():
 	
 	pygame.display.set_caption('HORSE GOES HOME')
 	sm = ScoreMaker()
-	TIMING, IS_HARDLE = sm.make()
+	TIMING, IS_HURDLE = sm.make()
 	
 	IMAGEDICT = {'field': pygame.image.load('pic/field.png'),
 				'title': pygame.image.load('pic/title.png'),
@@ -293,13 +293,13 @@ def showEndEvent(RESULT,cx,cityx):
 def runGame():
 	global CORRECT,JUMP,FAIL,MISS,CLEAR,DRUM
 	j = 0 			#index for judge with TIMING
-	s = 0 			#index for set hardle pictures with TIMING
+	s = 0 			#index for set hurdle pictures with TIMING
 	INPUT = [0]*170	#input data from player
 	JUDGE = ['']*170
 	DIST = [0]*170
 	cx = 500 #cloud's x
 	cityx = 0 #city's x
-	hardles = []
+	hurdles = []
 	image = IMAGEDICT['stop']
 	jump = dict(x = 0, y = 0, defY = 0, height = 100, t = 0, jumping = False)
 	time = 0
@@ -335,8 +335,8 @@ def runGame():
 			cx = moveCloud(cx)
 			cityx = moveCity(cityx)
 		
-		#draw hardles on the ground
-		s, hardles = drawHardle(s,hardles)
+		#draw hurdles on the ground
+		s, hurdles = drawHurdle(s,hurdles)
 		
 		#get key event, set image, play SE, and judge
 		for event in pygame.event.get():					
@@ -402,12 +402,12 @@ def terminate():
     pygame.quit()
     sys.exit()
 
-def drawHardle(S,hardles):
+def drawHurdle(S,hurdles):
 	SPEED = 21
 	mtime = pygame.mixer.music.get_pos()/1000 #get music's play time
-	#make hardles ready before this time,from horse's leg to right edge is about 452 pixel
+	#make hurdles ready before this time,from horse's leg to right edge is about 452 pixel
 	if S<len(TIMING) and TIMING[S]-mtime<(452/(SPEED*FPS)): 
-		if IS_HARDLE[S]:
+		if IS_HURDLE[S]:
 			rand = random.randint(0,6)
 			if rand/3 == 1:
 				pic = 'red'
@@ -416,17 +416,17 @@ def drawHardle(S,hardles):
 			elif rand == 0:
 				pic = 'mole'
 			else: pic = 'yellow'
-		elif not IS_HARDLE[S]: 
+		elif not IS_HURDLE[S]: 
 			pic = 'stone'
-		hardles.append(Hardle(pic,SPEED))
+		hurdles.append(Hurdle(pic,SPEED))
 		S += 1
-	if hardles: #空でなかったら
-		for h in range(len(hardles)):
-			#hardles内のオブジェクトのxをを進める
-			DISPLAYSURF.blit(IMAGEDICT[hardles[h].pic],(hardles[h].move(),0))
-		if hardles[0].x < -70:#ハードル画像の不透明部の幅が約70pixel
-			del hardles[0]
-	return S,hardles
+	if hurdles: #空でなかったら
+		for h in range(len(hurdles)):
+			#hurdles内のオブジェクトのxをを進める
+			DISPLAYSURF.blit(IMAGEDICT[hurdles[h].pic],(hurdles[h].move(),0))
+		if hurdles[0].x < -70:#ハードル画像の不透明部の幅が約70pixel
+			del hurdles[0]
+	return S,hurdles
 
 def calculate(a_result):
 	a_score = 0
@@ -475,13 +475,13 @@ def judge(J,time,INPUT,JUDGE,DIST,image,judgement,jump):
 	for j in range(J,len(TIMING)):
 		dist = abs(TIMING[j]-time)
 		if dist < 0.07:
-			if IS_HARDLE[j] and not jump['jumping']:
+			if IS_HURDLE[j] and not jump['jumping']:
 				correctJump = False
-			elif IS_HARDLE[j] and jump['jumping']:
+			elif IS_HURDLE[j] and jump['jumping']:
 				correctJump = True
-			elif not IS_HARDLE[j] and jump['jumping']:
+			elif not IS_HURDLE[j] and jump['jumping']:
 				correctJump = False
-			elif not IS_HARDLE[j] and not jump['jumping']:
+			elif not IS_HURDLE[j] and not jump['jumping']:
 				correctJump = True
 
 		if dist < 0.05 and correctJump:
