@@ -19,9 +19,6 @@ https://otologic.jp/free/se/motion-pop01.html
 ### Quiz-Results01-2.mp3
 https://otologic.jp/free/se/quiz01.html
 
-### 1840.mp3
-https://dova-s.jp/bgm/play1840.html
-
 ### Shortbrige02-1.mp3
 https://otologic.jp/free/se/shortbridge01.html
 

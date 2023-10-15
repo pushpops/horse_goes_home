@@ -142,9 +142,9 @@ def main():
 		showEndEvent(RESULT,cx,cityx)
 
 def showStartScreen():
-	CHOICE = pygame.mixer.Sound("se/Onmtp-Inspiration08-3.wav")
+	CHOICE = pygame.mixer.Sound("se/Onoma-Inspiration08-3(Low-Delay).mp3")
 	CHOICE.set_volume(0.5)
-	pygame.mixer.music.load("se/1840.wav")
+	pygame.mixer.music.load("se/dummy.wav")
 	pygame.mixer.music.set_volume(0.2)
 	pygame.mixer.music.play(loops=-1)
 	titley = 0
